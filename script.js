@@ -1,8 +1,9 @@
   // Set the target date/time in SGT (Singapore Time is UTC+8)
   const targetDate = new Date('2025-07-14T12:00:00+08:00');
 
+  // Function to pad numbers with leading zero
   function pad(num) {
-    return num.toString().padStart(2, '0');
+    return String(num).padStart(2, '0');
   }
 
   function updateCountdown() {
@@ -31,6 +32,6 @@
     document.getElementById("h-sec").textContent = pad(seconds);
   }
 
-  // Update countdown every second
+  // Start the countdown and update every second
   const countdownInterval = setInterval(updateCountdown, 1000);
-  updateCountdown(); // initial call
+  updateCountdown(); // Initial call
