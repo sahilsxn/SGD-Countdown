@@ -1,37 +1,34 @@
-  // Set the target date/time in SGT (Singapore Time is UTC+8)
-  const targetDate = new Date('2025-07-14T12:00:00+08:00');
+    // Target time: 2025-07-14 12:00 SGT (UTC+8)
+    const targetDate = new Date("2025-07-14T12:00:00+08:00");
 
-  // Function to pad numbers with leading zero
-  function pad(num) {
-    return String(num).padStart(2, '0');
-  }
-
-  function updateCountdown() {
-    const now = new Date();
-    const difference = targetDate - now;
-
-    if (difference <= 0) {
-      // Countdown complete
-      document.getElementById("h-day").textContent = "0";
-      document.getElementById("h-hour").textContent = "00";
-      document.getElementById("h-min").textContent = "00";
-      document.getElementById("h-sec").textContent = "00";
-      clearInterval(countdownInterval);
-      return;
+    function pad(n) {
+      return n < 10 ? '0' + n : n;
     }
 
-    const totalSeconds = Math.floor(difference / 1000);
-    const days = Math.floor(totalSeconds / (3600 * 24));
-    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
 
-    document.getElementById("h-day").textContent = days;
-    document.getElementById("h-hour").textContent = pad(hours);
-    document.getElementById("h-min").textContent = pad(minutes);
-    document.getElementById("h-sec").textContent = pad(seconds);
-  }
+      if (diff <= 0) {
+        document.getElementById("h-day").textContent = "00";
+        document.getElementById("h-hour").textContent = "00";
+        document.getElementById("h-min").textContent = "00";
+        document.getElementById("h-sec").textContent = "00";
+        clearInterval(timer);
+        return;
+      }
 
-  // Start the countdown and update every second
-  const countdownInterval = setInterval(updateCountdown, 1000);
-  updateCountdown(); // Initial call
+      const totalSec = Math.floor(diff / 1000);
+      const days = Math.floor(totalSec / (3600 * 24));
+      const hours = Math.floor((totalSec % (3600 * 24)) / 3600);
+      const minutes = Math.floor((totalSec % 3600) / 60);
+      const seconds = totalSec % 60;
+
+      document.getElementById("h-day").textContent = days;
+      document.getElementById("h-hour").textContent = pad(hours);
+      document.getElementById("h-min").textContent = pad(minutes);
+      document.getElementById("h-sec").textContent = pad(seconds);
+    }
+
+    const timer = setInterval(updateCountdown, 1000);
+    updateCountdown();
