@@ -30,3 +30,43 @@
   // Update countdown every second
   const countdownInterval = setInterval(updateCountdown, 1000);
   updateCountdown(); // initial call
+
+// code for FAQ schema generation
+const hasQuestions = document.querySelector('.faq-question-container') !== null;
+const hasAnswers = document.querySelector('.new-faq-answer-content') !== null;
+
+if (hasQuestions && hasAnswers) {
+  let faqArray = [];
+  let questionElements = document.querySelectorAll('.faq-question-container');
+  let answerElements = document.querySelectorAll('.new-faq-answer-content');
+
+  questionElements.forEach((questionElement, index) => {
+    let questionText = questionElement.textContent.trim();
+
+    if (questionText.length > 0 && answerElements[index]) {
+      let answerText = answerElements[index].textContent.trim();
+      if (answerText.length > 0) {
+        faqArray.push({
+          "@type": "Question",
+          "name": questionText,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": answerText
+          }
+        });
+      }
+    }
+  });
+
+  let faqObject = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqArray
+  };
+	if (faqArray.length > 0) {
+  let scriptElement = document.createElement('script');
+  scriptElement.type = 'application/ld+json';
+  scriptElement.textContent = JSON.stringify(faqObject);
+  document.head.appendChild(scriptElement);
+  }
+}
